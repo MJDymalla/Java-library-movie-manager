@@ -1,9 +1,14 @@
 package com.MDYMALLA;
 
+/**
+ * MemberCollection is class that when instantiated will hold registered member objects in library
+ * Collection represented as an array structure
+ */
 public class MemberCollection {
 
     /**
      * Array to hold collection of Member objects
+     * initialized at zero and will increase each time a new member is added until capacity reached
      */
     private Member[] memberCollection = new Member[0];
     private int currentCapacity = 0;
@@ -11,12 +16,12 @@ public class MemberCollection {
     private final int maxCapacity = 10;
 
     /**
-     * Add a member
+     * Add a member to collection
+     * completes checks on collection size and if new member is duplicate
      */
     public void addMember(Member member) {
         if (member != null) {
             if (currentCapacity == fullCapacity && currentCapacity < maxCapacity) {
-                /* Ensure member doesn't already exist */
                 if (checkExistence(member.getFullName())) {
                     increaseCapacity();
                     memberCollection[currentCapacity] = member;
@@ -24,7 +29,6 @@ public class MemberCollection {
                     currentCapacity++;
                 }
             }
-            /* Capacity reached */
             else if (currentCapacity == maxCapacity){
                 System.out.println("\n*** Cannot register member - library capacity reached ***");
             }
@@ -33,11 +37,12 @@ public class MemberCollection {
 
     /**
      * Check if a member already exists in the collection
+     * system will not permit duplicate members
      */
     public boolean checkExistence(String name) {
         for (Member member: memberCollection) {
             if (member.getFullName().equals(name)) {
-                System.out.println("\n*** Registration failed - member already exists ***");
+                System.out.println("*** Registration failed - member already exists ***");
                 return false;
             }
         }
@@ -46,6 +51,7 @@ public class MemberCollection {
 
     /**
      * Increase capacity of member collection
+     * initialize a new array at increased size by copying items across
      */
     private void increaseCapacity() {
         Member[] temp = new Member[fullCapacity + 1];
@@ -56,6 +62,7 @@ public class MemberCollection {
 
     /**
      * Login as a member against registered library members
+     * return true if input matches member details
      */
     public boolean login(String username, int password) {
         Member member = getMember(username);
@@ -70,6 +77,7 @@ public class MemberCollection {
 
     /**
      * Get a Member object given a name
+     * return member if they exist in collection
      */
     public Member getMember(String name) {
         for (Member member: memberCollection) {
@@ -101,6 +109,7 @@ public class MemberCollection {
 
     /**
      * Get a registered members phone number given a name
+     * return printed phone number if member can be found by provided input
      */
     public int getPhoneNumber(String firstName, String lastName) {
         String username = firstName + lastName;

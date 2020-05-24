@@ -1,5 +1,10 @@
 package com.MDYMALLA;
 
+/**
+ * MovieCollection is class that when instantiated will hold collection of movie objects in library
+ * Collection represented as binary search tree
+ * Each movie object added as node on BST
+ */
 public class MovieCollection {
     Movie root;
     private int collectionSize;
@@ -9,7 +14,8 @@ public class MovieCollection {
     public int getCollectionSize() { return this.collectionSize; }
 
     /**
-     * Add a movie to the library collection
+     * Adding a movie to the library collection:
+     * requires check to ensure no duplicate movies are added to collection
      */
     public void addMovie(String title, String genre, Rating rating, int copies, int borrowed) {
         root = addNode(root, title, genre, rating, copies, borrowed);
@@ -22,20 +28,19 @@ public class MovieCollection {
             increaseCollectionSize();
             return root;
         }
-
         if (title.compareToIgnoreCase(root.getTitle()) < 0) {
             root.leftChild = addNode(root.leftChild, title, genre, rating, copies, borrowed);
         } else if (title.compareToIgnoreCase(root.getTitle()) > 0) {
             root.rightChild = addNode(root.rightChild, title, genre, rating, copies, borrowed);
-        } else if (title.equals(root.getTitle())) {
+        } else if (title.compareToIgnoreCase(root.getTitle()) == 0) {
             System.out.println("*** This movie already exists in library ***");
         }
         return root;
     }
 
     /**
-     * Traverse tree using in order traversal
-     * prints list of available movies in lexicographical order
+     * Displaying all movies in collection:
+     * Traverse tree using in order traversal - prints list of available movies in lexicographical order
      */
     public void displayMovies(Movie movie) {
         if (movie != null) {
@@ -51,12 +56,13 @@ public class MovieCollection {
     }
 
     /**
-     * Find a movie given title
+     * Find a movie in collection:
+     * Given title traverse tree to find movie object
      * Needs to handle exception if nothing found - returning null
      */
     public Movie findMovie(Movie node, String title) {
-        String movieName = node.getTitle();
         try {
+            String movieName = node.getTitle();
             if (movieName.equals(title) || node == null) {
                 return node;
             }
@@ -71,7 +77,9 @@ public class MovieCollection {
     }
 
     /**
-     * Remove Movie DVD from library collection
+     * Remove Movie DVD from library collection:
+     * Given title find and remove movie node from BST
+     * requires checks on nodes position in tree - if it has children and needs to find successor
      */
     public Movie removeMovie(Movie root, String title) {
         if (root == null){
@@ -115,7 +123,8 @@ public class MovieCollection {
     }
 
     /**
-     * Store and sort movies based on popularity
+     * Display top movies in library:
+     * Prints list of most popular movies in library in order of times borrowed up to 10
      */
     public void moviePopularity(Movie root) {
         Movie[] temp = new Movie[collectionSize];

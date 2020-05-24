@@ -2,13 +2,14 @@ package com.MDYMALLA;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayInputStream;
+import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MainTest {
     @Test
     public void movieTest() {
         MovieCollection movieCollection = new MovieCollection();
-
         movieCollection.addMovie("Space Jam", "sport", Rating.M, 2, 5);
         movieCollection.addMovie("Space Man", "sport", Rating.M, 1, 2);
         movieCollection.addMovie("Jaws", "sport", Rating.M, 1, 3);
@@ -17,8 +18,12 @@ class MainTest {
         movieCollection.addMovie("Inception", "sport", Rating.M, 1, 1);
         movieCollection.addMovie("Interstellar", "sport", Rating.M, 1, 9);
         movieCollection.addMovie("Uncle Drew", "sport", Rating.M, 1, 11);
-
         assertEquals(movieCollection.getCollectionSize(), 8);
+    }
 
+    @Test
+    public void staffLoginTest() {
+        ByteArrayInputStream in = new ByteArrayInputStream("My string".getBytes());
+        System.setIn(in);
     }
 }

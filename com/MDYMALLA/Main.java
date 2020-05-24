@@ -70,15 +70,6 @@ public class Main {
         /* instantiate scanner for user input */
         Scanner input = new Scanner(System.in);
 
-        movieCollection.addMovie("Space Jam", "Sport", Rating.PG, 2, 5);
-        movieCollection.addMovie("Semi-Pro", "Comedy", Rating.MA, 1, 2);
-        movieCollection.addMovie("Jaws", "Thriller", Rating.M, 1, 3);
-        movieCollection.addMovie("Shark Week", "Education", Rating.PG, 1, 6);
-        movieCollection.addMovie("Waterboy", "Comedy", Rating.M, 1, 8);
-        movieCollection.addMovie("Step Brothers", "Comedy", Rating.M, 1, 1);
-        movieCollection.addMovie("Interstellar", "Sci-Fi", Rating.M, 1, 9);
-        movieCollection.addMovie("Uncle Drew", "Sport", Rating.PG, 1, 11);
-
         /* Main program state */
         do {
             /* MAIN MENU */
@@ -128,8 +119,15 @@ public class Main {
                     }
                     /* exit program */
                     else if (selected == 0) {
-                        online = false;
-                        input.close();
+                        System.out.print("~ Are you sure you want to exit? (y/n): ");
+                        String confirmation = input.next();
+                        if (confirmation.equals("y")) {
+                            online = false;
+                            input.close();
+                        } else if (confirmation.equals("N")) {
+                            System.out.println("*** Returning to main menu ***\n");
+                            continue;
+                        }
                     }
                     else {
                         System.out.println("\n*** Option unavailable - please enter from available ***\n");

@@ -2,6 +2,10 @@ package com.MDYMALLA;
 
 import java.util.*;
 
+/**
+ * Member is class that when instantiated will represent a registered member in library system
+ * Member behaves as basic user and is able to list, borrow, and return movies in the system
+ */
 public class Member {
     private final String firstName;
     private final String lastName;
@@ -27,23 +31,15 @@ public class Member {
         this.fullName = firstName + lastName;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
+    public String getFirstName() { return firstName; }
 
-    public String getLastName() {
-        return lastName;
-    }
+    public String getLastName() { return lastName; }
 
-    public String getFullName() {
-        return fullName;
-    }
+    public String getFullName() { return fullName; }
 
-    public int getPhoneNumber() { return phoneNumber; }
+    public int getPhoneNumber() { return this.phoneNumber; }
 
-    public int getPassword() {
-        return password;
-    }
+    public int getPassword() { return password; }
 
     /**
      * Member option 1:
@@ -65,9 +61,10 @@ public class Member {
     /**
      * Member option 2:
      * Borrow a movie DVD from library
+     * requires checks on members age, copies available, and if movie isn't currently in possession already
+     * on success - add movie to members collection, reduce available copies, and increase times borrowed
      */
     public void borrowMovie(MovieCollection collection, Scanner input) {
-        /* input: movie name */
         System.out.println("\n--------------------------------------------");
         System.out.println("|        *** Borrow a new movie ***         |");
         System.out.println("--------------------------------------------");
@@ -77,9 +74,7 @@ public class Member {
         input.nextLine();
         String title = input.nextLine();
         System.out.println("--------------------------------------------");
-
         Movie rentedMovie = collection.findMovie(collection.root, title);
-
         if (rentedMovie != null) {
             if (ageCheck(rentedMovie.getRating()) && rentedMovie.canRent() && movieCheck(rentedMovie)) {
                 rentedMovie.setCopies();
@@ -93,6 +88,8 @@ public class Member {
     /**
      * Member option 3:
      * Return a movie DVD to the library
+     * requires checks on if member has movie currently in possession and if staff has removed movie while borrowed
+     * on success - remove movie from member and increase copies available
      */
     public void returnMovie(MovieCollection collection, Scanner input) {
         System.out.println("\n--------------------------------------------");
@@ -104,9 +101,7 @@ public class Member {
         input.nextLine();
         String title = input.nextLine();
         System.out.println("--------------------------------------------");
-
         Movie returnedMovie = collection.findMovie(collection.root, title);
-
         if (returnedMovie != null) {
             if (moviesRented.contains(returnedMovie)) {
                 moviesRented.remove(returnedMovie);
@@ -114,6 +109,13 @@ public class Member {
                 System.out.println("*** Returned movie: " + returnedMovie.getTitle() + " ***");
             } else {
                 System.out.println("*** You haven't got this movie borrowed currently ***");
+            }
+        } else {
+            for (Movie movie: moviesRented) {
+                if (movie.getTitle().equals(title)) {
+                    moviesRented.remove(movie);
+                    System.out.println("*** Returned movie: " + movie.getTitle() + " ***");
+                }
             }
         }
     }
@@ -137,7 +139,7 @@ public class Member {
     }
 
     /**
-     * Flags for member attempting to borrow movie
+     * Registered members age corresponds to what rating of movie they can borrow
      */
     public boolean ageCheck(Rating rating) {
         if (rating.getAgeRestriction() > age) {
@@ -152,9 +154,12 @@ public class Member {
         return true;
     }
 
+    /**
+     * Member cannot borrow movie they already have in possession
+     */
     public boolean movieCheck(Movie movie) {
         if (moviesRented.contains(movie)) {
-            System.out.print("*** You already have this movie borrowed ***");
+            System.out.println("*** You already have this movie borrowed ***");
             return false;
         }
         return true;

@@ -2,6 +2,10 @@ package com.MDYMALLA;
 
 import java.util.*;
 
+/**
+ * Staff class when instantiated represents staff user in library system
+ * Staff user behaves as admin and has permissions to add and remove movies as well as create new members
+ */
 public class Staff {
     private String username = "staff";
     private String password = "today123";
@@ -21,7 +25,6 @@ public class Staff {
         System.out.print("| Password: ");
         String pass = input.next();
         System.out.println("--------------------------------------------------");
-
         if (user.equals(username) && pass.equals(password)) {
             System.out.println("\n*** Successfully logged in as a staff member ***\n");
             return true;
@@ -33,6 +36,7 @@ public class Staff {
     /**
      * Staff option 1:
      * Add a new movie DVD to the library collection
+     * input needs to be validated to ensure correct behavior i.e. Rating
      */
     public void addMovie(MovieCollection collection, Scanner input) {
         try {
@@ -65,6 +69,7 @@ public class Staff {
     /**
      * Staff option 2:
      * Remove a movie DVD from the library collection
+     * requires check on if movie exists in collection
      */
     public void removeMovie(MovieCollection collection, Scanner input) {
         System.out.println("\n----------------------------------------------");
@@ -80,7 +85,6 @@ public class Staff {
         input.nextLine();
         String movieName = input.nextLine();
         System.out.println("-------------------------------------------");
-
         if (collection.findMovie(collection.root, movieName) != null) {
             collection.removeMovie(collection.root, movieName);
             System.out.println("*** " + movieName + " removed from library collection ***");
@@ -115,8 +119,6 @@ public class Staff {
             System.out.print("| Password: ");
             int password = input.nextInt();
             System.out.println("------------------------------------------------------------------");
-
-            /* check input and is member already exists in system */
             Member newMember = registerMember(firstName, lastName, age,phoneNumber, password);
             collection.addMember(newMember);
         } catch (Exception e) {
@@ -155,7 +157,6 @@ public class Staff {
      * Find a registered members phone number
      */
     public void findPhoneNumber(MemberCollection collection, Scanner input) {
-        /* get input: registered members first and last name */
         System.out.println("\n-----------------------------------------------");
         System.out.println("| *** Find a library members phone number *** |");
         System.out.println("-----------------------------------------------");
@@ -166,8 +167,6 @@ public class Staff {
         System.out.print("| Last name: ");
         String lastName = input.next();
         System.out.println("-----------------------------------------------");
-
-        /* get phone number from input if it exists */
         collection.getPhoneNumber(firstName, lastName);
     }
 }
