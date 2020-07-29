@@ -4,3 +4,6 @@ general functions of a movie store,<i> i.e. adding new movies, renting movies, n
 
 ### Prerequisites
 Java 8 or above.
+
+### Author
+Markus Dymalla
